@@ -393,7 +393,11 @@ func (c *Seaweed) BatchUploadFileParts(files []*FilePart, collection string, ttl
 		}
 	}
 
-	assigned, err := c.Assign(normalize(nil, collection, ttl))
+	assigned, err := c.Assign(normalize(
+		url.Values{ParamCount: []string{strconv.Itoa(len(files))}},
+		collection,
+		ttl,
+	))
 	if err != nil {
 		for i := range files {
 			results[i].Error = err.Error()
